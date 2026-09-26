@@ -77,6 +77,22 @@ Tasks:
 - Confirm that only the required board functionality exists.
 - Prepare the app for the user to open and review.
 
+## Phase 6: Progress indicators and responsive layouts
+
+Goal: show useful progress at card and board level, and keep the board comfortable to use from phones through 4K desktop displays.
+
+Success criteria:
+- [x] Each card shows progress derived from its current column stage.
+- [x] Overall board progress reflects the average progress across cards and updates after card moves.
+- [x] The board adapts its spacing and column widths from narrow phones through large desktop displays.
+- [x] Unit tests cover stage and board progress calculations; existing card workflows continue to work.
+
+Tasks:
+- Map the fixed five column stages to progress percentages without adding another card field.
+- Add accessible progress bars to cards and the board summary.
+- Use fluid widths and typography, with touch-friendly horizontal column scrolling on phones and tablets.
+- Run unit, lint, build, and browser checks at the final layout.
+
 ## Definition of done
 
 The project is complete only when:

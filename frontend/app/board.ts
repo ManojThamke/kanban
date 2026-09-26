@@ -1,6 +1,25 @@
 export type Card = { id: string; title: string; details: string };
 export type Column = { id: string; name: string; cards: Card[] };
 
+const stageProgress: Record<string, number> = {
+  backlog: 0,
+  todo: 25,
+  progress: 50,
+  review: 75,
+  done: 100,
+};
+
+export function getCardProgress(columnId: string): number {
+  return stageProgress[columnId] ?? 0;
+}
+
+export function getBoardProgress(columns: Column[]): number {
+  const cards = columns.flatMap((column) => column.cards);
+  if (cards.length === 0) return 0;
+  const progress = columns.reduce((total, column) => total + getCardProgress(column.id) * column.cards.length, 0);
+  return Math.round(progress / cards.length);
+}
+
 export const initialColumns: Column[] = [
   { id: "backlog", name: "Backlog", cards: [
     { id: "c1", title: "Map the customer journey", details: "Document the moments that matter from first visit to first value." },
@@ -43,6 +62,7 @@ export function moveCard(columns: Column[], activeId: string, overId: string): C
   const source = columns.find((column) => column.cards.some((card) => card.id === activeId));
   const target = columns.find((column) => column.id === overId || column.cards.some((card) => card.id === overId));
   if (!source || !target) return columns;
+  if (source.id === "done") return columns;
   const card = source.cards.find((item) => item.id === activeId)!;
   if (source.id === target.id) {
     const from = source.cards.findIndex((item) => item.id === activeId);
